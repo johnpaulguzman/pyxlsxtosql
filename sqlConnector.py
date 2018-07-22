@@ -8,6 +8,7 @@ class SqlConnector:
     def __init__(self):
         self.cnx = None
         self.mysql_config = None
+        self.error_log = []
 
     def read_config(self):
         with open(mysql_config_file_path, 'r') as config_file:
@@ -20,15 +21,26 @@ class SqlConnector:
         debug_logger("Successfully opened MySQLConnection")
 
     def execute_in_cursor(self, command):
-        cursor = self.cnx.cursor()
-        cursor.execute(command)
-        result = list(cursor)
-        cursor.close()
-        debug_logger(f"Query results for ( {command} ) : \n{result}")
-        return result
+        try:
+            cursor = self.cnx.cursor()
+            cursor.execute(command)
+            result = list(cursor)
+            cursor.close()
+            debug_logger(f"Query results for ( {command} ) : \n{result}")
+            return result
+        except Exception as e:
+            debug_logger(f"Query error occured {e}")
+            self.error_log += [(command, e)]
+        finally:
+            cursor.close()
 
     def close_cnx(self):
         self.cnx.close()
+
+    def print_error_log(self):
+        print("Errors logged:")
+        for error in self.error_log:
+            print(error)
 
 ## TODO: make open_cnx > callback > close_cnx
 if __name__ == '__main__':

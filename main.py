@@ -22,11 +22,14 @@ def main():
 
     for table in tables_found:
         connection.execute_in_cursor(f"TRUNCATE {translate_table[table]}")
-        #connection.execute_in_cursor(f"""INSERT INTO {translate_table[table]}""")
+        for row in data_dict[table]:
+            row_str = ', '.join(map(lambda r: "'" + r + "'", row[1:]))
+            connection.execute_in_cursor(f"INSERT INTO {translate_table[table]} VALUES ({row_str})")
 
-    ## TODO continue
-    import code;code.interact(local={**locals(), **globals()})
+    #import code;code.interact(local={**locals(), **globals()})
+    #TODO FIX 'nan' reading missing columns or maybe just replace with " "
     connection.close_cnx()
+    connection.print_error_log()
 
 
 if __name__ == '__main__':
