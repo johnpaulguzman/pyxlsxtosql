@@ -24,6 +24,7 @@ class SqlConnector:
         cursor.execute(command)
         result = list(cursor)
         cursor.close()
+        debug_logger(f"Query results for ( {command} ) : \n{result}")
         return result
 
     def close_cnx(self):
