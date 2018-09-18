@@ -7,7 +7,7 @@ class ExcelLoader:
     @staticmethod
     def load_excel(excel_path=None):
         if not excel_path: excel_path = excel_test_file_path
-        data_frame = read_excel(excel_path, sheet_name=None, dtype=str)
+        data_frame = read_excel(excel_path, sheet_name=None, dtype=str, na_filter=False)
         data_dict = {}
         for frame in data_frame:
             data_dict[frame] = list(data_frame[frame].itertuples())

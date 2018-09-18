@@ -31,6 +31,8 @@ class SqlConnector:
         except Exception as e:
             debug_logger(f"Query error occured {e}")
             self.error_log += [(command, e)]
+            print(command)
+            #raise e
         finally:
             cursor.close()
 
