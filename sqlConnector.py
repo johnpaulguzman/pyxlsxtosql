@@ -15,9 +15,10 @@ class SqlConnector:
             self.mysql_config = json.loads(config_file.read())
             debug_logger(f"MySQL config loaded: {self.mysql_config}")
 
-    def open_cnx(self):
+    def open_cnx(self, schema_name):
         self.read_config()
         self.cnx = MySQLConnection(**self.mysql_config)
+        self.cnx.database = schema_name
         debug_logger("Successfully opened MySQLConnection")
 
     def execute_in_cursor(self, command):
@@ -26,7 +27,7 @@ class SqlConnector:
             cursor.execute(command)
             result = list(cursor)
             cursor.close()
-            debug_logger(f"Query results for ( {command} ) : \n{result}")
+            debug_logger(f"Query results for ( {command} ): {result}")
             return result
         except Exception as e:
             debug_logger(f"Query error occured {e}")
@@ -40,9 +41,11 @@ class SqlConnector:
         self.cnx.close()
 
     def print_error_log(self):
+        if not self.error_log: return print("No errors logged.\nDatabase update successful!")
         print("Errors logged:")
         for error in self.error_log:
             print(error)
+        print("Database update unsuccessful!")
 
 ## TODO: make open_cnx > callback > close_cnx
 if __name__ == '__main__':
