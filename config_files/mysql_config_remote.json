@@ -1,7 +1,0 @@
-{
-    "user": "root",
-    "password": "p@ssword",
-    "host": "10.20.11.60",
-    "port": 3306,
-    "database": "grading"
-}

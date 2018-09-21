@@ -14,7 +14,7 @@ translate_table = {
 
 
 if __name__ == '__main__':
-    excel_path = input("Drag and drop the Database Entries xlsx file here...")
+    excel_path = input("Drag and drop the Database Entries xlsx file here, then press Enter.\n")
     if excel_path.startswith('"') and excel_path.endswith('"'):
         excel_path = excel_path[1:-1]
     data_dict = ExcelLoader.load_excel(excel_path)
@@ -36,4 +36,4 @@ if __name__ == '__main__':
     connection.cnx.commit()
     connection.close_cnx()
     connection.print_error_log()
-    input("Press Enter to exit...")
+    input("Press Enter to exit.\n")

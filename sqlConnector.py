@@ -1,25 +1,34 @@
 from mysql.connector.connection import MySQLConnection  # pip install mysql-connector
 import json
 
-from config import debug_logger, mysql_config_file_path
 
+config_local = {
+    "user": "root",
+    "password": "p@ssword",
+    "host": "localhost",
+    "port": 3306,
+    "database": "grading"
+}
+config_remote = {
+    "user": "root",
+    "password": "p@ssword",
+    "host": "10.20.11.60",
+    "port": 3306,
+    "database": "grading"
+}
 
 class SqlConnector:
     def __init__(self):
         self.cnx = None
-        self.mysql_config = None
         self.error_log = []
 
-    def read_config(self):
-        with open(mysql_config_file_path, 'r') as config_file:
-            self.mysql_config = json.loads(config_file.read())
-            debug_logger(f"MySQL config loaded: {self.mysql_config}")
-
     def open_cnx(self, schema_name):
-        self.read_config()
-        self.cnx = MySQLConnection(**self.mysql_config)
+        try:
+            self.cnx = MySQLConnection(**config_local)
+        except:
+            self.cnx = MySQLConnection(**config_remote)
         self.cnx.database = schema_name
-        debug_logger("Successfully opened MySQLConnection")
+        print("Successfully opened MySQLConnection")
 
     def execute_in_cursor(self, command):
         try:
@@ -27,10 +36,10 @@ class SqlConnector:
             cursor.execute(command)
             result = list(cursor)
             cursor.close()
-            debug_logger(f"Query results for ( {command} ): {result}")
+            print(f"Query results for ( {command} ): {result}")
             return result
         except Exception as e:
-            debug_logger(f"Query error occured {e}")
+            print(f"Query error occured {e}")
             self.error_log += [(command, e)]
             print(command)
             #raise e
