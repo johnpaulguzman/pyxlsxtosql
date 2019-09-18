@@ -43,7 +43,7 @@ if __name__ == '__main__':
     el = ExcelLoader(req_url)
     print(f"Sheets in dict: {el().keys()}")
     import code; code.interact(local={**locals(), **globals()})
-""" code generator
+''' code generator
 import re
 sheets = el()
 quarter_num = '1'
@@ -65,4 +65,14 @@ shs_subjects = [subject for subject in sheets['Subjects'] if \
         if not loaded_subjects: continue
         print("\n", level, section_name, strand)
         print(loaded_subjects)
-"""
+
+template_1 = """\tparts.add(new compUtil("%s", 1.0 / %s * 1000));"""
+template_2 = """
+if (strand.matches("%s") && section.equals("%s") && level.matches("%s") && quarterNum > 2) {
+    ArrayList<compUtil> parts = new ArrayList<compUtil>();
+    String compName = "Average";
+    %s
+    addNewGrade(parts, compName);
+}"""
+
+'''
