@@ -21,6 +21,6 @@ setup(
     executables = executables
 )
 
-
+#pipdeptree --reverse --packages pandas
 #set TCL_LIBRARY=C:\Users\JP\AppData\Local\Programs\Python\Python36\tcl\tcl8.6
 #set TK_LIBRARY=C:\Users\JP\AppData\Local\Programs\Python\Python36\tcl\tk8.6
