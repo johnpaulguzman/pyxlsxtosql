@@ -1,0 +1,16 @@
+
+    if (strand.matches("HumSS") && section.equals("Mercy") && level.matches("12") && quarterNum > 2) {
+        ArrayList<compUtil> parts = new ArrayList<compUtil>();
+        String compName = "Average";
+        parts.add(new compUtil("Discipline and Ideas in the Applied Social Sciences", 1.0 / 10 * 1000));
+    parts.add(new compUtil("Contemporary Philippine Arts from the Regions", 1.0 / 10 * 1000));
+    parts.add(new compUtil("English for Academic and Professional Purposes", 1.0 / 10 * 1000));
+    parts.add(new compUtil("Disciplines and Ideas in the  Applied Social Sciences", 1.0 / 10 * 1000));
+    parts.add(new compUtil("21st Century Literature from the Philippines and the World", 1.0 / 10 * 1000));
+    parts.add(new compUtil("Research Project", 1.0 / 10 * 1000));
+    parts.add(new compUtil("Personality Development", 1.0 / 10 * 1000));
+    parts.add(new compUtil("Pagbasa at Pagsusuri ng Ibat Ibang Teksto Tungo sa Pananaliksik", 1.0 / 10 * 1000));
+    parts.add(new compUtil("Physical Science", 1.0 / 10 * 1000));
+    parts.add(new compUtil("PE and Health 3", 1.0 / 10 * 1000));
+        addNewGrade(parts, compName);
+    }
