@@ -16,13 +16,14 @@ config_remote = {
     "port": 3306,
     "database": "grading"
 }
-
+ TODO CONFIG ... 
 class SqlConnector:
-    def __init__(self):
+    def __init__(self, schema_name):
+        self.schema_name = schema_name
         self.cnx = None
         self.error_log = []
 
-    def open_cnx(self, schema_name):
+    def __enter__(self, schema_name):
         try:
             self.cnx = MySQLConnection(**config_local)
         except:
@@ -30,24 +31,24 @@ class SqlConnector:
         self.cnx.database = schema_name
         print("Successfully opened MySQLConnection")
 
+    def __exit__(self):
+        if self.cnx is not None:
+            self.cnx.close()
+            print("Successfully closed MySQLConnection")
+
     def execute_in_cursor(self, command):
+        new_cursor = self.cnx.cursor()
         try:
-            cursor = self.cnx.cursor()
-            cursor.execute(command)
-            result = list(cursor)
-            cursor.close()
+            new_cursor.execute(command)
+            result = list(new_cursor)
+            new_cursor.close()
             print(f"Query results for ( {command} ): {result}")
             return result
         except Exception as e:
-            print(f"Query error occured {e}")
+            print(f"Query error occured: {e}")
             self.error_log += [(command, e)]
-            print(command)
-            #raise e
         finally:
-            cursor.close()
-
-    def close_cnx(self):
-        self.cnx.close()
+            new_cursor.close()
 
     def print_error_log(self):
         if not self.error_log: return print("No errors logged.\nDatabase update successful!")

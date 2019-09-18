@@ -5,7 +5,7 @@ base = None
 executables = [Executable("main.py", base=base)]
 
 packages = ["idna", "sys", "mysql", "json", "os"]
-packages += ["pandas", "pytz", "dateutil", "six", "numpy"]
+packages += ["pandas", "xlrd", "pytz", "dateutil", "six", "numpy"]
 
 options = {
     'build_exe': {    
